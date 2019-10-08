@@ -61,17 +61,19 @@ function getFiles(directory, opts = {}) {
   let filesOrFolder = filesInDirectory(filesCurrentDirectory); // Распарсим полученные данные на папки и файлы
   let filesPathArray = []
   let totalSum = 0
+
   let path = folderPaths(filesOrFolder.folderArr, directory)  //получимс все пути в папках
   let filesByPath = showFiles(path) // Файлы по пути в папках
   filesPathArray.push(filesByPath.files)  //запушим их в массив для того чтоб обьеденить с файлами по главной директории
 
   for (let i = 0; i < filesOrFolder.filesArr.length; i++) {
     filesPathArray.push(directory + filesOrFolder.filesArr[i]) //пушим файлы из главной дирректории
-    totalSum = sum(filesOrFolder.filesArr,directory)  // посчитаем сумму в главной директории
+    amount0lvl = sum(filesOrFolder.filesArr,directory)  // посчитаем сумму в главной директории
   }
 
-  console.log('файлы по дирректории: \n', filesPathArray.join().split(',')) //отобразим массив путей и файлов
-  console.log('\nСумма во всех файлах по дирректории: ', totalSum + filesByPath.totalSum)
+  let receivedDataFilesPath = filesPathArray.join().split(',')
+  let allSum = amount0lvl + filesByPath.totalSum
+  return {receivedDataFilesPath,allSum}
 }
-getFiles('/home/smedov/Work/Test-Folder-Files/')
-module.export = getFiles
+
+module.exports = getFiles
