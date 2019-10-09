@@ -62,14 +62,14 @@ function getFiles(directory, opts = {}) {
   let filesPathArray = []
   let totalSum = 0
 
-  let path = folderPaths(filesOrFolder.folderArr, directory)  //получимс все пути в папках
-  let filesByPath = showFiles(path) // Файлы по пути в папках
-  filesPathArray.push(filesByPath.files)  //запушим их в массив для того чтоб обьеденить с файлами по главной директории
-
   for (let i = 0; i < filesOrFolder.filesArr.length; i++) {
     filesPathArray.push(directory + filesOrFolder.filesArr[i]) //пушим файлы из главной дирректории
     amount0lvl = sum(filesOrFolder.filesArr,directory)  // посчитаем сумму в главной директории
   }
+
+  let path = folderPaths(filesOrFolder.folderArr, directory)  //получимс все пути в папках
+  let filesByPath = showFiles(path) // Файлы по пути в папках
+  filesPathArray.push(filesByPath.files)  //запушим их в массив для того чтоб обьеденить с файлами по главной директории
 
   let receivedDataFilesPath = filesPathArray.join().split(',')
   let allSum = amount0lvl + filesByPath.totalSum
