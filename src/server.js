@@ -1,6 +1,7 @@
-const getFiles = require('./lib')
+const readDirSync = require('./lib')
 
-let result = getFiles('/home/smedov/Work/Test_Files/Test_Folder_Files/',{debug:true})
-
-console.log('файлы по дирректории: \n', result.receivedDataFilesPath) // Отобразим массив путей c файлами
-console.log('\nСумма во всех файлах по дирректории: ',  result.allSum) // Отобразим полученную сумму в файлах
+readDirSync('/home/smedov/Work/Test_Files/Test_Folder_Files/')
+  .then(data => {
+    console.log('файлы по дирректории: \n', data.receivedDataFilesPath) // Отобразим массив путей c файлами
+    console.log('\nСумма во всех файлах по дирректории: ', data.allSum) // Отобразим полученную сумму в файлах
+  })
