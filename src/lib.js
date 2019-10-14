@@ -37,33 +37,12 @@ function readSumFileASync(localBase) {
   })
 }
 
-// function countNumbers (directory) {
-//   return readDirAsync(directory)
-//     .then(subFolders => {
-//       const promArr = subFolders.map(item => {
-//         let localBase = path.join(directory, item);
-//         let state = fs.statSync(localBase);
-//         if (state.isDirectory()) {
-//           return countNumbers(localBase)
-//         } else{
-//           return readSumFileASync(localBase)
-//         }
-//       })
-//       return Promise.all(promArr)
-//     })
-//     .then(results => {
-//       let sum = 0;
-//       results.forEach(addSum => sum+=addSum)
-//       return sum
-//     })
-// }
-
 function countNumbers(directory) {
   return readDirAsync(directory)
     .then(subFolders => {
       const promArr = subFolders.map(item => {
         let localBase = path.join(directory, item);
-        return statAsync(localBase) // Сделать асинхроным
+        return statAsync(localBase)
         .then(data=>{
           if (data.isDirectory()) {
             return countNumbers(localBase)
