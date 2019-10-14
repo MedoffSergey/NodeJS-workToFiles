@@ -1,64 +1,37 @@
 const fs = require('fs');
+const fsPromises = fs.promises;
 const path = require('path');
 
-function readDirAsync(directory) { // Функция чтения дирректории асинхронно
-  return new Promise(function(resolve, reject) { // Возвращает промис
-    fs.readdir(directory, function(err, data) {
-      if (err) reject(err);
-      else resolve(data);
-    });
-  });
-}
-
-function readFileAsync(directory) { // Функция чтения файлы асинхронно
-  return new Promise(function(resolve, reject) { // Возвращает промис
-    fs.readFile(directory, { encoding: 'utf8' }, function(err, fileStr) {
-      if (err) reject(err);
-      else resolve(fileStr);
-    });
-  });
-}
-
-function statAsync(directory) { // Функция понимания диретория это или файл
-  return new Promise(function(resolve, reject) { // Возвращает промис
-    fs.stat(directory, function(err, fileStr) {
-      if (err) reject(err);
-      else resolve(fileStr);
-    });
-  });
-}
-
 function readSumFileASync(localBase) {
-  return readFileAsync(localBase)
-  .then(fileStr=>{
-    let addSum = parseInt(fileStr || 0);
-  //  console.log('addSum',addSum)
-    return Promise.resolve(addSum)
-  })
+  return new Promise(function(resolve, reject) {
+    fsPromises.readFile(localBase).then(result => {
+      let addSum = parseInt(result || 0);
+      return resolve(addSum)
+    });
+  });
 }
 
 function countNumbers(directory) {
-  return readDirAsync(directory)
+  return fsPromises.readdir(directory) //читаем текущую папку
     .then(subFolders => {
-      const promArr = subFolders.map(item => {
-        let localBase = path.join(directory, item);
-        return statAsync(localBase)
-        .then(data=>{
-          if (data.isDirectory()) {
-            return countNumbers(localBase)
+      const promArr = subFolders.map(item => { //массив
+        let localBase = path.join(directory, item); //новое имя папки/файла
+        return fsPromises.stat(localBase).then(state => { //получаем свойства
+          if (state.isDirectory()) {
+            return countNumbers(localBase) //рекурсия
           } else {
-            return readSumFileASync(localBase)
+            return readSumFileASync(localBase) //если не папка, то считываем файл
           }
         })
-      })
-      return Promise.all(promArr)
+      });
+      return Promise.all(promArr) //возвращаем массив промиссов
     })
     .then(results => {
       let sum = 0;
-      results.forEach(addSum => sum += addSum)
+      results.forEach(addSum => sum += addSum); //суммируем все
       return sum
     })
 }
 
 countNumbers('/home/smedov/Work/Test_Files/Test_Folder_Files/') //вызываем функцию countNumbers
-.then(data => console.log(data))
+  .then(data => console.log(data))

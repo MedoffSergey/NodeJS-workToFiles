@@ -1,22 +1,10 @@
 {
   "name": "skeleton",
   "version": "1.0.0",
-  "description": "project using gulp4",
+  "description": "Files Show Directory",
   "author": "Medov Sergei",
-  "devDependencies": {
-    "eslint": "^6.1.0",
-    "gulp": "^4.0.2"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "core-util-is": "^1.0.2",
-    "cors": "^2.8.5",
-    "domurl": "^2.2.0",
-    "ejs": "^2.6.2",
-    "express": "^4.17.1",
-    "json": "^9.0.6",
-    "node-telegram-bot-api": "^0.30.0",
-    "pjson": "^1.0.9",
-    "pug": "^2.0.4",
-    "request": "^2.88.0"
+    "async": "^3.1.0"
   }
 }
